@@ -1,0 +1,53 @@
+import { MigrationInterface, QueryRunner } from 'typeorm';
+
+export class InitialSchema1700000000000 implements MigrationInterface {
+  name = 'InitialSchema1700000000000';
+
+  public async up(queryRunner: QueryRunner): Promise<void> {
+    await queryRunner.query(`
+      CREATE TABLE [department] (
+        [id]   INT IDENTITY(1,1) NOT NULL,
+        [name] NVARCHAR(255)     NOT NULL,
+        CONSTRAINT [PK_department] PRIMARY KEY ([id])
+      )
+    `);
+
+    await queryRunner.query(`
+      CREATE TABLE [employee] (
+        [id]           INT IDENTITY(1,1)      NOT NULL,
+        [firstName]    NVARCHAR(255)          NOT NULL,
+        [lastName]     NVARCHAR(255)          NOT NULL,
+        [email]        NVARCHAR(255)          NOT NULL,
+        [hireDate]     DATE                   NOT NULL,
+        [salary]       DECIMAL(10, 2)         NOT NULL,
+        [departmentId] INT                    NULL,
+        CONSTRAINT [PK_employee]          PRIMARY KEY ([id]),
+        CONSTRAINT [UQ_employee_email]    UNIQUE      ([email]),
+        CONSTRAINT [FK_employee_dept]     FOREIGN KEY ([departmentId])
+          REFERENCES [department]([id]) ON DELETE SET NULL
+      )
+    `);
+
+    await queryRunner.query(`
+      CREATE TABLE [user] (
+        [id]         INT IDENTITY(1,1) NOT NULL,
+        [userName]   NVARCHAR(255)     NOT NULL,
+        [password]   NVARCHAR(255)     NOT NULL,
+        [role]       NVARCHAR(50)      NOT NULL DEFAULT 'standard',
+        [employeeId] INT               NULL,
+        CONSTRAINT [PK_user]           PRIMARY KEY ([id]),
+        CONSTRAINT [UQ_user_userName]  UNIQUE      ([userName]),
+        CONSTRAINT [FK_user_employee]  FOREIGN KEY ([employeeId])
+          REFERENCES [employee]([id]) ON DELETE SET NULL
+      )
+    `);
+  }
+
+  public async down(queryRunner: QueryRunner): Promise<void> {
+    await queryRunner.query(`ALTER TABLE [user]     DROP CONSTRAINT [FK_user_employee]`);
+    await queryRunner.query(`ALTER TABLE [employee] DROP CONSTRAINT [FK_employee_dept]`);
+    await queryRunner.query(`DROP TABLE [user]`);
+    await queryRunner.query(`DROP TABLE [employee]`);
+    await queryRunner.query(`DROP TABLE [department]`);
+  }
+}
