@@ -1,11 +1,11 @@
 import {
   CanActivate,
   ExecutionContext,
+  ForbiddenException,
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { Request } from 'express';
 import { RequestWithUser } from './requestWithUser';
 import { JwtService } from '../services/jwtService';
 import { UserRole } from '../data/enums/userRole';
@@ -40,7 +40,7 @@ export class JwtAuthGuard implements CanActivate {
       request.user = payload;
 
       if (requiredRoles && !requiredRoles.includes(payload.role)) {
-        throw new UnauthorizedException('Insufficient permissions');
+        throw new ForbiddenException('Insufficient permissions');
       }
 
       return true;

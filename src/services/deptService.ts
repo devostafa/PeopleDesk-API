@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { FindOptionsOrder, FindOptionsWhere, Like } from 'typeorm';
 import { DepartmentRepository } from '../data/repositories/departmentRepository';
-import { Department } from '../data/entities/department';
+import { Department } from '../data/entities/department.entity';
 import { CreateDepartmentRequestDto } from '../data/dtos/requestDtos/createDepartmentRequestDto';
 import { UpdateDepartmentRequestDto } from '../data/dtos/requestDtos/updateDepartmentRequestDto';
 import { DeptResponseDto } from '../data/dtos/responseDtos/deptResponseDto';

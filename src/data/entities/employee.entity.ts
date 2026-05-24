@@ -5,7 +5,7 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { Department } from './department';
+import { Department } from './department.entity';
 
 @Entity()
 export class Employee {

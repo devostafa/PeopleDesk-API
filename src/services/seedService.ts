@@ -2,10 +2,10 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
-import { User } from '../data/entities/user';
+import { User } from '../data/entities/user.entity';
 import { UserRole } from '../data/enums/userRole';
-import { Employee } from '../data/entities/employee';
-import { Department } from '../data/entities/department';
+import { Employee } from '../data/entities/employee.entity';
+import { Department } from '../data/entities/department.entity';
 
 @Injectable()
 export class SeedService {

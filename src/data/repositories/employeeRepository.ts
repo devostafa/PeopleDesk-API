@@ -6,7 +6,7 @@ import {
   FindOneOptions,
   Repository,
 } from 'typeorm';
-import { Employee } from '../entities/employee';
+import { Employee } from '../entities/employee.entity';
 
 @Injectable()
 export class EmployeeRepository {

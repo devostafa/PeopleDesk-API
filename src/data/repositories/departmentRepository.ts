@@ -6,7 +6,7 @@ import {
   FindOneOptions,
   Repository,
 } from 'typeorm';
-import { Department } from '../entities/department';
+import { Department } from '../entities/department.entity';
 
 @Injectable()
 export class DepartmentRepository {

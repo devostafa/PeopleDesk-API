@@ -13,7 +13,8 @@ import { DeptService } from './services/deptService';
 import { AnalyticsService } from './services/analyticsService';
 import { AnalyticsController } from './controllers/analyticsController';
 import { DatabaseModule } from './data/db.module';
-import { ThrottlerModule } from '@nestjs/throttler';
+import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
+import { APP_GUARD } from '@nestjs/core';
 
 @Module({
   imports: [
@@ -30,7 +31,7 @@ import { ThrottlerModule } from '@nestjs/throttler';
     ThrottlerModule.forRoot([
       {
         ttl: 60_000, // 1 minute window
-        limit: 10,
+        limit: 200,
       },
     ]),
   ],
@@ -41,6 +42,7 @@ import { ThrottlerModule } from '@nestjs/throttler';
     AnalyticsController,
   ],
   providers: [
+    { provide: APP_GUARD, useClass: ThrottlerGuard },
     AuthService,
     JwtService,
     HashService,
