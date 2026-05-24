@@ -23,10 +23,11 @@ import { JwtAuthGuard } from '../guards/jwtAuthGuard';
 import { Roles } from '../decorators/roles.decorator';
 import { UserRole } from '../data/enums/userRole';
 import { DeptService } from '../services/deptService';
+import { RolesGuard } from '../guards/rolesGuard';
 
 @ApiTags('Departments')
 @ApiBearerAuth()
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard, RolesGuard)
 @Roles(UserRole.ADMIN)
 @Controller('departments')
 export class DepartmentController {

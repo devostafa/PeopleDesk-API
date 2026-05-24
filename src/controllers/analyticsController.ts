@@ -10,10 +10,11 @@ import { AnalyticsService } from '../services/analyticsService';
 import { AnalyticsSummaryResponseDto } from '../data/dtos/responseDtos/analyticsSummaryResponseDto';
 import { Roles } from '../decorators/roles.decorator';
 import { UserRole } from '../data/enums/userRole';
+import { RolesGuard } from '../guards/rolesGuard';
 
 @ApiTags('Analytics')
 @ApiBearerAuth()
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard, RolesGuard)
 @Roles(UserRole.ADMIN)
 @Controller('analytics')
 export class AnalyticsController {

@@ -23,10 +23,11 @@ import { JwtAuthGuard } from '../guards/jwtAuthGuard';
 import { Roles } from '../decorators/roles.decorator';
 import { UserRole } from '../data/enums/userRole';
 import { EmpService } from '../services/empService';
+import { RolesGuard } from '../guards/rolesGuard';
 
 @ApiTags('Employees')
 @ApiBearerAuth()
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard, RolesGuard)
 @Roles(UserRole.ADMIN)
 @Controller('employees')
 export class EmployeeController {
