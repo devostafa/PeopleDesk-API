@@ -7,6 +7,7 @@ import { Department } from '../data/entities/department';
 import { CreateEmployeeRequestDto } from '../data/dtos/requestDtos/createEmployeeRequestDto';
 import { UpdateEmployeeRequestDto } from '../data/dtos/requestDtos/updateEmployeeRequestDto';
 import { EmpResponseDto } from '../data/dtos/responseDtos/empResponseDto';
+import { isSortableField } from '../common/utils/sort.utils';
 
 @Injectable()
 export class EmpService {
@@ -37,7 +38,10 @@ export class EmpService {
     const order: FindOptionsOrder<Employee> = {};
     if (sort) {
       const [field, direction] = sort.split(':');
-      (order as any)[field] = direction?.toUpperCase() === 'DESC' ? 'DESC' : 'ASC';
+      if (field && isSortableField(field)) {
+        order[field] = order[field] =
+          direction?.toUpperCase() === 'DESC' ? 'DESC' : 'ASC';
+      }
     } else {
       order.id = 'DESC';
     }
@@ -129,7 +133,7 @@ export class EmpService {
     }
 
     await this.employeeRepository.save(employee);
-    return this.getById(id);
+    return this.toDto(employee);
   }
 
   async delete(id: string): Promise<void> {

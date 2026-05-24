@@ -1,10 +1,12 @@
 import { ApiPropertyOptional } from '@nestjs/swagger';
 import {
+  IsDate,
   IsEmail,
   IsNumber,
   IsOptional,
   IsString,
   Min,
+  ValidateIf,
 } from 'class-validator';
 import { Type } from 'class-transformer';
 
@@ -27,6 +29,7 @@ export class UpdateEmployeeRequestDto {
   @ApiPropertyOptional()
   @IsOptional()
   @Type(() => Date)
+  @IsDate()
   hireDate?: Date;
 
   @ApiPropertyOptional()
@@ -35,8 +38,9 @@ export class UpdateEmployeeRequestDto {
   @Min(0)
   salary?: number;
 
-  @ApiPropertyOptional()
+  @ApiPropertyOptional({ nullable: true })
   @IsOptional()
+  @ValidateIf((o: UpdateEmployeeRequestDto) => o.departmentId !== null)
   @IsString()
-  departmentId?: string;
+  departmentId?: string | null;
 }
