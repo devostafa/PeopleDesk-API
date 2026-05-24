@@ -1,6 +1,11 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { FindOptionsOrder, FindOptionsWhere, Like } from 'typeorm';
 import { DepartmentRepository } from '../data/repositories/departmentRepository';
+import { EmployeeRepository } from '../data/repositories/employeeRepository';
 import { Department } from '../data/entities/department.entity';
 import { CreateDepartmentRequestDto } from '../data/dtos/requestDtos/createDepartmentRequestDto';
 import { UpdateDepartmentRequestDto } from '../data/dtos/requestDtos/updateDepartmentRequestDto';
@@ -9,7 +14,10 @@ import { isDeptSortableField } from '../common/utils/depSort.utils';
 
 @Injectable()
 export class DeptService {
-  constructor(private readonly departmentRepository: DepartmentRepository) {}
+  constructor(
+    private readonly departmentRepository: DepartmentRepository,
+    private readonly employeeRepository: EmployeeRepository,
+  ) {}
 
   private toDto(department: Department): DeptResponseDto {
     return {
@@ -87,6 +95,16 @@ export class DeptService {
       where: { id },
     });
     if (!department) throw new NotFoundException(`Department #${id} not found`);
+
+    const employeeCount = await this.employeeRepository.count({
+      departmentId: id,
+    });
+    if (employeeCount > 0) {
+      throw new ConflictException(
+        `Cannot delete department "${department.name}" because it still has ${employeeCount} employee(s)`,
+      );
+    }
+
     await this.departmentRepository.remove(department);
   }
 }

@@ -3,7 +3,6 @@ import { FindOptionsOrder, FindOptionsWhere, Like } from 'typeorm';
 import { EmployeeRepository } from '../data/repositories/employeeRepository';
 import { DepartmentRepository } from '../data/repositories/departmentRepository';
 import { Employee } from '../data/entities/employee.entity';
-import { Department } from '../data/entities/department.entity';
 import { CreateEmployeeRequestDto } from '../data/dtos/requestDtos/createEmployeeRequestDto';
 import { UpdateEmployeeRequestDto } from '../data/dtos/requestDtos/updateEmployeeRequestDto';
 import { EmpResponseDto } from '../data/dtos/responseDtos/empResponseDto';
@@ -24,8 +23,8 @@ export class EmpService {
       email: employee.email,
       hireDate: employee.hireDate,
       salary: employee.salary,
-      departmentId: employee.department?.id ?? null,
-      departmentName: employee.department?.name ?? null,
+      departmentId: employee.department.id,
+      departmentName: employee.department.name,
     };
   }
 
@@ -79,16 +78,13 @@ export class EmpService {
   }
 
   async create(dto: CreateEmployeeRequestDto): Promise<EmpResponseDto> {
-    let department: Department | null = null;
-    if (dto.departmentId) {
-      department = await this.departmentRepository.findOne({
-        where: { id: dto.departmentId },
-      });
-      if (!department)
-        throw new NotFoundException(
-          `Department #${dto.departmentId} not found`,
-        );
-    }
+    const department = await this.departmentRepository.findOne({
+      where: { id: dto.departmentId },
+    });
+    if (!department)
+      throw new NotFoundException(
+        `Department #${dto.departmentId} not found`,
+      );
 
     const employee = this.employeeRepository.create({
       firstName: dto.firstName,
@@ -96,7 +92,7 @@ export class EmpService {
       email: dto.email,
       hireDate: dto.hireDate,
       salary: dto.salary,
-      department: department ?? undefined,
+      department,
     });
 
     const saved = await this.employeeRepository.save(employee);
@@ -120,18 +116,14 @@ export class EmpService {
     if (dto.salary !== undefined) employee.salary = dto.salary;
 
     if (dto.departmentId !== undefined) {
-      if (dto.departmentId === null) {
-        employee.department = null;
-      } else {
-        const department = await this.departmentRepository.findOne({
-          where: { id: dto.departmentId },
-        });
-        if (!department)
-          throw new NotFoundException(
-            `Department #${dto.departmentId} not found`,
-          );
-        employee.department = department;
-      }
+      const department = await this.departmentRepository.findOne({
+        where: { id: dto.departmentId },
+      });
+      if (!department)
+        throw new NotFoundException(
+          `Department #${dto.departmentId} not found`,
+        );
+      employee.department = department;
     }
 
     await this.employeeRepository.save(employee);

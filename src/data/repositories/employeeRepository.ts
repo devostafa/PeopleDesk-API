@@ -4,6 +4,7 @@ import {
   DeepPartial,
   FindManyOptions,
   FindOneOptions,
+  FindOptionsWhere,
   Repository,
 } from 'typeorm';
 import { Employee } from '../entities/employee.entity';
@@ -31,6 +32,10 @@ export class EmployeeRepository {
 
   async save(entity: Employee): Promise<Employee> {
     return this.repository.save(entity);
+  }
+
+  async count(where?: FindOptionsWhere<Employee>): Promise<number> {
+    return this.repository.count({ where });
   }
 
   async remove(entity: Employee): Promise<Employee> {

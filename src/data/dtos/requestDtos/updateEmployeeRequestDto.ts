@@ -6,7 +6,6 @@ import {
   IsOptional,
   IsString,
   Min,
-  ValidateIf,
 } from 'class-validator';
 import { Type } from 'class-transformer';
 
@@ -38,9 +37,8 @@ export class UpdateEmployeeRequestDto {
   @Min(0)
   salary?: number;
 
-  @ApiPropertyOptional({ nullable: true })
+  @ApiPropertyOptional()
   @IsOptional()
-  @ValidateIf((o: UpdateEmployeeRequestDto) => o.departmentId !== null)
   @IsString()
-  departmentId?: string | null;
+  departmentId?: string;
 }

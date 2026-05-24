@@ -19,9 +19,9 @@ export class EmpResponseDto {
   @ApiProperty()
   salary!: number;
 
-  @ApiProperty({ nullable: true })
-  departmentId!: string | null;
+  @ApiProperty()
+  departmentId!: string;
 
-  @ApiProperty({ nullable: true })
-  departmentName!: string | null;
+  @ApiProperty()
+  departmentName!: string;
 }
