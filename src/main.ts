@@ -22,6 +22,9 @@ async function bootstrap() {
       'https://people-desk.com',
       'http://people-desk.com',
       'http://localhost:5000',
+      'https://localhost:5000',
+      'http://localhost:5001',
+      'https://localhost:5001',
     ],
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
     allowedHeaders: ['Content-Type', 'Authorization'],
@@ -29,9 +32,11 @@ async function bootstrap() {
   });
 
   const swaggerConfig = new DocumentBuilder()
-    .setTitle('People Desk API')
+    .setTitle('PeopleDesk API')
     .setDescription('HR management API for employees and departments')
     .setVersion('1.0')
+    .addServer('http://localhost:5001', 'Local HTTP')
+    .addServer('https://localhost:5001', 'Local HTTPS')
     .addBearerAuth()
     .build();
 
@@ -40,5 +45,8 @@ async function bootstrap() {
 
   const port = process.env.APP_PORT ?? 5001;
   await app.listen(port);
+  console.log(
+    `API documentation available at http://localhost:${port}/api/docs`,
+  );
 }
 bootstrap();

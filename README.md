@@ -9,5 +9,7 @@ Run `npm install` to install dependencies
 - Ensure SQL Server is running in mixed mode authentication.
 - Configure userName and password credentials in the .env file.
 
-# Running the app
-Run `npm start` to start the server
+# Running and testing the app
+- Run `npm start` to start the server
+
+# Testing the app
