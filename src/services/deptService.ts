@@ -5,6 +5,7 @@ import { Department } from '../data/entities/department';
 import { CreateDepartmentRequestDto } from '../data/dtos/requestDtos/createDepartmentRequestDto';
 import { UpdateDepartmentRequestDto } from '../data/dtos/requestDtos/updateDepartmentRequestDto';
 import { DeptResponseDto } from '../data/dtos/responseDtos/deptResponseDto';
+import { isDeptSortableField } from '../common/utils/depSort.utils';
 
 @Injectable()
 export class DeptService {
@@ -26,7 +27,11 @@ export class DeptService {
     const order: FindOptionsOrder<Department> = {};
     if (sort) {
       const [field, direction] = sort.split(':');
-      (order as any)[field] = direction?.toUpperCase() === 'DESC' ? 'DESC' : 'ASC';
+      if (field && isDeptSortableField(field)) {
+        order[field] = direction?.toUpperCase() === 'DESC' ? 'DESC' : 'ASC';
+      } else {
+        order.id = 'DESC';
+      }
     } else {
       order.id = 'DESC';
     }

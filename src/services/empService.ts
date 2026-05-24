@@ -7,7 +7,7 @@ import { Department } from '../data/entities/department';
 import { CreateEmployeeRequestDto } from '../data/dtos/requestDtos/createEmployeeRequestDto';
 import { UpdateEmployeeRequestDto } from '../data/dtos/requestDtos/updateEmployeeRequestDto';
 import { EmpResponseDto } from '../data/dtos/responseDtos/empResponseDto';
-import { isSortableField } from '../common/utils/sort.utils';
+import { isSortableField } from '../common/utils/empSort.utils';
 
 @Injectable()
 export class EmpService {
@@ -41,6 +41,8 @@ export class EmpService {
       if (field && isSortableField(field)) {
         order[field] = order[field] =
           direction?.toUpperCase() === 'DESC' ? 'DESC' : 'ASC';
+      } else {
+        order.id = 'DESC';
       }
     } else {
       order.id = 'DESC';
