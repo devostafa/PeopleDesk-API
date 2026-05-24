@@ -24,7 +24,7 @@ import { RefreshTokenRepository } from './repositories/refreshTokenRepository';
         database: configService.get<string>('DB_NAME', 'peopledesk'),
         entities: [User, Employee, Department, RefreshToken],
         synchronize: false,
-        migrations: ['dist/**/migrations/*.js'],
+        migrations: ['dist/data/migrations/*.js'],
         migrationsRun: true,
         options: {
           encrypt: false,
@@ -35,7 +35,12 @@ import { RefreshTokenRepository } from './repositories/refreshTokenRepository';
     }),
     TypeOrmModule.forFeature([User, Employee, Department, RefreshToken]),
   ],
-  providers: [UserRepository, EmployeeRepository, DepartmentRepository, RefreshTokenRepository],
+  providers: [
+    UserRepository,
+    EmployeeRepository,
+    DepartmentRepository,
+    RefreshTokenRepository,
+  ],
   exports: [
     TypeOrmModule,
     UserRepository,

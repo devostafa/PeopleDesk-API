@@ -9,5 +9,8 @@ Run `npm install` to install dependencies
 - Ensure SQL Server is running in mixed mode authentication.
 - Configure userName and password credentials in the .env file.
 
+## Database Migrations
+- The command typically follows the format: `npm run migration:generate <migration-name>`
+
 # Running the server
 - Run `npm start` to start the server
