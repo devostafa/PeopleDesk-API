@@ -5,5 +5,5 @@ export class CreateDepartmentRequestDto {
   @ApiProperty()
   @IsString()
   @IsNotEmpty()
-  name: string;
+  name!: string;
 }

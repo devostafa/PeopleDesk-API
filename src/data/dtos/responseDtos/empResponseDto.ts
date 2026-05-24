@@ -2,26 +2,26 @@ import { ApiProperty } from '@nestjs/swagger';
 
 export class EmpResponseDto {
   @ApiProperty()
-  id: number;
+  id!: number;
 
   @ApiProperty()
-  firstName: string;
+  firstName!: string;
 
   @ApiProperty()
-  lastName: string;
+  lastName!: string;
 
   @ApiProperty()
-  email: string;
+  email!: string;
 
   @ApiProperty()
   hireDate!: Date;
 
   @ApiProperty()
-  salary: number;
+  salary!: number;
 
   @ApiProperty({ nullable: true })
-  departmentId: number | null;
+  departmentId!: number | null;
 
   @ApiProperty({ nullable: true })
-  departmentName: string | null;
+  departmentName!: string | null;
 }

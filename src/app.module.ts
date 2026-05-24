@@ -10,6 +10,8 @@ import { HashService } from './services/hashService';
 import { SeedService } from './services/seedService';
 import { EmpService } from './services/empService';
 import { DeptService } from './services/deptService';
+import { AnalyticsService } from './services/analyticsService';
+import { AnalyticsController } from './controllers/analyticsController';
 import { DatabaseModule } from './data/db.module';
 
 @Module({
@@ -25,7 +27,12 @@ import { DatabaseModule } from './data/db.module';
       }),
     }),
   ],
-  controllers: [AuthController, EmployeeController, DepartmentController],
+  controllers: [
+    AuthController,
+    EmployeeController,
+    DepartmentController,
+    AnalyticsController,
+  ],
   providers: [
     AuthService,
     JwtService,
@@ -33,6 +40,7 @@ import { DatabaseModule } from './data/db.module';
     SeedService,
     EmpService,
     DeptService,
+    AnalyticsService,
   ],
 })
 export class AppModule implements OnModuleInit {

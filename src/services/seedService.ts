@@ -97,8 +97,7 @@ export class SeedService {
         this.userRepository.create({
           userName: employee.email.split('@')[0],
           password: standardPasswords[index],
-          role: UserRole.STANDARD,
-          employee,
+          role: UserRole.USER,
         }),
       ),
     );

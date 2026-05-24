@@ -2,8 +2,8 @@ import { ApiProperty } from '@nestjs/swagger';
 
 export class DeptResponseDto {
   @ApiProperty()
-  id: number;
+  id!: number;
 
   @ApiProperty()
-  name: string;
+  name!: string;
 }

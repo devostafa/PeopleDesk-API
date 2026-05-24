@@ -1,4 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
+import { Like } from 'typeorm';
 import { DepartmentRepository } from '../data/repositories/departmentRepository';
 import { Department } from '../data/entities/department';
 import { CreateDepartmentRequestDto } from '../data/dtos/requestDtos/createDepartmentRequestDto';
@@ -19,8 +20,25 @@ export class DeptService {
   async getAll(
     page: number = 1,
     limit: number = 10,
+    search?: string,
+    sort?: string,
   ): Promise<{ data: DeptResponseDto[]; total: number }> {
+    const order: any = {};
+    if (sort) {
+      const [field, direction] = sort.split(':');
+      order[field] = direction?.toUpperCase() === 'DESC' ? 'DESC' : 'ASC';
+    } else {
+      order.id = 'DESC';
+    }
+
+    const where: any = [];
+    if (search) {
+      where.push({ name: Like(`%${search}%`) });
+    }
+
     const [departments, total] = await this.departmentRepository.findAndCount({
+      where: where.length > 0 ? where : undefined,
+      order,
       skip: (page - 1) * limit,
       take: limit,
     });

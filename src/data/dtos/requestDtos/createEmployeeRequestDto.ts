@@ -13,25 +13,25 @@ export class CreateEmployeeRequestDto {
   @ApiProperty()
   @IsString()
   @IsNotEmpty()
-  firstName: string;
+  firstName!: string;
 
   @ApiProperty()
   @IsString()
   @IsNotEmpty()
-  lastName: string;
+  lastName!: string;
 
   @ApiProperty()
   @IsEmail()
-  email: string;
+  email!: string;
 
   @ApiProperty()
   @Type(() => Date)
-  hireDate: Date;
+  hireDate!: Date;
 
   @ApiProperty()
   @IsNumber()
   @Min(0)
-  salary: number;
+  salary!: number;
 
   @ApiPropertyOptional()
   @IsOptional()

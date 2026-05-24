@@ -5,10 +5,10 @@ export class LoginRequestDto {
   @ApiProperty()
   @IsString()
   @IsNotEmpty()
-  userName: string;
+  userName!: string;
 
   @ApiProperty()
   @IsString()
   @IsNotEmpty()
-  password: string;
+  password!: string;
 }

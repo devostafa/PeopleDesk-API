@@ -38,8 +38,10 @@ export class EmployeeController {
   async getAll(
     @Query('page', ParseIntPipe) page: number = 1,
     @Query('limit', ParseIntPipe) limit: number = 10,
+    @Query('search') search?: string,
+    @Query('sort') sort?: string,
   ): Promise<{ data: EmpResponseDto[]; total: number }> {
-    return this.empService.getAll(page, limit);
+    return this.empService.getAll(page, limit, search, sort);
   }
 
   @Get(':id')

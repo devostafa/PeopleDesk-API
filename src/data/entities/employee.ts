@@ -10,24 +10,24 @@ import { Department } from './department';
 @Entity()
 export class Employee {
   @PrimaryGeneratedColumn()
-  id: number;
+  id!: number;
 
   @Column()
-  firstName: string;
+  firstName!: string;
 
   @Column()
-  lastName: string;
+  lastName!: string;
 
   @Column({ unique: true })
-  email: string;
+  email!: string;
 
   @Column({ type: 'date' })
-  hireDate: Date;
+  hireDate!: Date;
 
   @Column({ type: 'decimal', precision: 10, scale: 2 })
-  salary: number;
+  salary!: number;
 
   @ManyToOne(() => Department, { eager: true, nullable: true })
   @JoinColumn()
-  department: Department;
+  department!: Department | null;
 }

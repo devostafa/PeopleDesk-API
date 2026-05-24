@@ -1,28 +1,17 @@
-import {
-  Column,
-  Entity,
-  JoinColumn,
-  OneToOne,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
-import { Employee } from './employee';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 import { UserRole } from '../enums/userRole';
 
 @Entity()
 export class User {
   @PrimaryGeneratedColumn()
-  id: number;
+  id!: number;
 
   @Column({ unique: true })
-  userName: string;
+  userName!: string;
 
   @Column()
-  password: string;
+  password!: string;
 
-  @Column({ type: 'enum', enum: UserRole, default: UserRole.STANDARD })
-  role: UserRole;
-
-  @OneToOne(() => Employee, { nullable: true, eager: true })
-  @JoinColumn()
-  employee: Employee;
+  @Column({ type: 'nvarchar', length: 50, default: UserRole.USER })
+  role!: UserRole;
 }

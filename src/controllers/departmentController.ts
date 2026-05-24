@@ -38,8 +38,10 @@ export class DepartmentController {
   async getAll(
     @Query('page', ParseIntPipe) page: number = 1,
     @Query('limit', ParseIntPipe) limit: number = 10,
+    @Query('search') search?: string,
+    @Query('sort') sort?: string,
   ): Promise<{ data: DeptResponseDto[]; total: number }> {
-    return this.deptService.getAll(page, limit);
+    return this.deptService.getAll(page, limit, search, sort);
   }
 
   @Get(':id')

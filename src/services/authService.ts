@@ -14,7 +14,7 @@ export class AuthService {
   async login(
     username: string,
     password: string,
-  ): Promise<{ accessToken: string }> {
+  ): Promise<{ accessToken: string; refreshToken: string }> {
     const user = await this.userRepository.findOne({
       where: { userName: username },
     });
@@ -31,7 +31,8 @@ export class AuthService {
       throw new UnauthorizedException('Invalid credentials');
     }
 
-    const accessToken = this.jwtService.createToken(user.id, user.role);
-    return { accessToken };
+    const accessToken = this.jwtService.createAccessToken(user.id, user.role);
+    const refreshToken = this.jwtService.createRefreshToken(user.id, user.role);
+    return { accessToken, refreshToken };
   }
 }

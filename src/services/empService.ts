@@ -1,4 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
+import { Like } from 'typeorm';
 import { EmployeeRepository } from '../data/repositories/employeeRepository';
 import { DepartmentRepository } from '../data/repositories/departmentRepository';
 import { Employee } from '../data/entities/employee';
@@ -30,9 +31,28 @@ export class EmpService {
   async getAll(
     page: number = 1,
     limit: number = 10,
+    search?: string,
+    sort?: string,
   ): Promise<{ data: EmpResponseDto[]; total: number }> {
+    const order: any = {};
+    if (sort) {
+      const [field, direction] = sort.split(':');
+      order[field] = direction?.toUpperCase() === 'DESC' ? 'DESC' : 'ASC';
+    } else {
+      order.id = 'DESC';
+    }
+
+    const where: any = [];
+    if (search) {
+      where.push({ firstName: Like(`%${search}%`) });
+      where.push({ lastName: Like(`%${search}%`) });
+      where.push({ email: Like(`%${search}%`) });
+    }
+
     const [employees, total] = await this.employeeRepository.findAndCount({
-      relations: ['department'],
+      relations: { department: true },
+      where: where.length > 0 ? where : undefined,
+      order,
       skip: (page - 1) * limit,
       take: limit,
     });
@@ -46,7 +66,7 @@ export class EmpService {
   async getById(id: number): Promise<EmpResponseDto> {
     const employee = await this.employeeRepository.findOne({
       where: { id },
-      relations: ['department'],
+      relations: { department: true },
     });
     if (!employee) throw new NotFoundException(`Employee #${id} not found`);
     return this.toDto(employee);
@@ -83,7 +103,7 @@ export class EmpService {
   ): Promise<EmpResponseDto> {
     const employee = await this.employeeRepository.findOne({
       where: { id },
-      relations: ['department'],
+      relations: { department: true },
     });
     if (!employee) throw new NotFoundException(`Employee #${id} not found`);
 
