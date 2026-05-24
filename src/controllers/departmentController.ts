@@ -47,9 +47,7 @@ export class DepartmentController {
   @Get(':id')
   @ApiOperation({ summary: 'Get department by ID' })
   @ApiResponse({ status: 200, type: DeptResponseDto })
-  async getById(
-    @Param('id', ParseIntPipe) id: number,
-  ): Promise<DeptResponseDto> {
+  async getById(@Param('id') id: string): Promise<DeptResponseDto> {
     return this.deptService.getById(id);
   }
 
@@ -66,7 +64,7 @@ export class DepartmentController {
   @ApiOperation({ summary: 'Update a department' })
   @ApiResponse({ status: 200, type: DeptResponseDto })
   async update(
-    @Param('id', ParseIntPipe) id: number,
+    @Param('id') id: string,
     @Body() dto: UpdateDepartmentRequestDto,
   ): Promise<DeptResponseDto> {
     return this.deptService.update(id, dto);
@@ -75,7 +73,7 @@ export class DepartmentController {
   @Delete(':id')
   @ApiOperation({ summary: 'Delete a department' })
   @ApiResponse({ status: 200 })
-  async delete(@Param('id', ParseIntPipe) id: number): Promise<void> {
+  async delete(@Param('id') id: string): Promise<void> {
     await this.deptService.delete(id);
   }
 }

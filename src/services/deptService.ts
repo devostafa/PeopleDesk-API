@@ -48,7 +48,7 @@ export class DeptService {
     };
   }
 
-  async getById(id: number): Promise<DeptResponseDto> {
+  async getById(id: string): Promise<DeptResponseDto> {
     const department = await this.departmentRepository.findOne({
       where: { id },
     });
@@ -63,7 +63,7 @@ export class DeptService {
   }
 
   async update(
-    id: number,
+    id: string,
     dto: UpdateDepartmentRequestDto,
   ): Promise<DeptResponseDto> {
     const department = await this.departmentRepository.findOne({
@@ -77,7 +77,7 @@ export class DeptService {
     return this.toDto(saved);
   }
 
-  async delete(id: number): Promise<void> {
+  async delete(id: string): Promise<void> {
     const department = await this.departmentRepository.findOne({
       where: { id },
     });

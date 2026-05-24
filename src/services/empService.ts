@@ -63,7 +63,7 @@ export class EmpService {
     };
   }
 
-  async getById(id: number): Promise<EmpResponseDto> {
+  async getById(id: string): Promise<EmpResponseDto> {
     const employee = await this.employeeRepository.findOne({
       where: { id },
       relations: { department: true },
@@ -98,7 +98,7 @@ export class EmpService {
   }
 
   async update(
-    id: number,
+    id: string,
     dto: UpdateEmployeeRequestDto,
   ): Promise<EmpResponseDto> {
     const employee = await this.employeeRepository.findOne({
@@ -132,7 +132,7 @@ export class EmpService {
     return this.getById(id);
   }
 
-  async delete(id: number): Promise<void> {
+  async delete(id: string): Promise<void> {
     const employee = await this.employeeRepository.findOne({ where: { id } });
     if (!employee) throw new NotFoundException(`Employee #${id} not found`);
     await this.employeeRepository.remove(employee);

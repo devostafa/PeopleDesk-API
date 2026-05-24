@@ -2,7 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 
 export class EmpResponseDto {
   @ApiProperty()
-  id!: number;
+  id!: string;
 
   @ApiProperty()
   firstName!: string;
@@ -20,7 +20,7 @@ export class EmpResponseDto {
   salary!: number;
 
   @ApiProperty({ nullable: true })
-  departmentId!: number | null;
+  departmentId!: string | null;
 
   @ApiProperty({ nullable: true })
   departmentName!: string | null;

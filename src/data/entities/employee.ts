@@ -9,8 +9,8 @@ import { Department } from './department';
 
 @Entity()
 export class Employee {
-  @PrimaryGeneratedColumn()
-  id!: number;
+  @PrimaryGeneratedColumn('uuid')
+  id!: string;
 
   @Column()
   firstName!: string;

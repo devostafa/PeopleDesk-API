@@ -37,6 +37,6 @@ export class UpdateEmployeeRequestDto {
 
   @ApiPropertyOptional()
   @IsOptional()
-  @IsNumber()
-  departmentId?: number;
+  @IsString()
+  departmentId?: string;
 }

@@ -47,9 +47,7 @@ export class EmployeeController {
   @Get(':id')
   @ApiOperation({ summary: 'Get employee by ID' })
   @ApiResponse({ status: 200, type: EmpResponseDto })
-  async getById(
-    @Param('id', ParseIntPipe) id: number,
-  ): Promise<EmpResponseDto> {
+  async getById(@Param('id') id: string): Promise<EmpResponseDto> {
     return this.empService.getById(id);
   }
 
@@ -64,7 +62,7 @@ export class EmployeeController {
   @ApiOperation({ summary: 'Update an employee' })
   @ApiResponse({ status: 200, type: EmpResponseDto })
   async update(
-    @Param('id', ParseIntPipe) id: number,
+    @Param('id') id: string,
     @Body() dto: UpdateEmployeeRequestDto,
   ): Promise<EmpResponseDto> {
     return this.empService.update(id, dto);
@@ -73,7 +71,7 @@ export class EmployeeController {
   @Delete(':id')
   @ApiOperation({ summary: 'Delete an employee' })
   @ApiResponse({ status: 200 })
-  async delete(@Param('id', ParseIntPipe) id: number): Promise<void> {
+  async delete(@Param('id') id: string): Promise<void> {
     await this.empService.delete(id);
   }
 }

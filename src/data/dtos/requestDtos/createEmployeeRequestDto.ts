@@ -35,6 +35,6 @@ export class CreateEmployeeRequestDto {
 
   @ApiPropertyOptional()
   @IsOptional()
-  @IsNumber()
-  departmentId?: number;
+  @IsString()
+  departmentId?: string;
 }

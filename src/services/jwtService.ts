@@ -10,7 +10,7 @@ export class JwtService {
     private readonly configService: ConfigService,
   ) {}
 
-  createAccessToken(userId: number, role: UserRole): string {
+  createAccessToken(userId: string, role: UserRole): string {
     const payload = { sub: userId, role };
     return this.nestJwtService.sign(payload, {
       secret: this.configService.get<string>(
@@ -21,7 +21,7 @@ export class JwtService {
     });
   }
 
-  createRefreshToken(userId: number, role: UserRole): string {
+  createRefreshToken(userId: string, role: UserRole): string {
     const payload = { sub: userId, role };
     return this.nestJwtService.sign(payload, {
       secret: this.configService.get<string>(
@@ -32,7 +32,7 @@ export class JwtService {
     });
   }
 
-  verifyAccessToken(token: string): { sub: number; role: UserRole } {
+  verifyAccessToken(token: string): { sub: string; role: UserRole } {
     return this.nestJwtService.verify(token, {
       secret: this.configService.get<string>(
         'JWT_ACCESS_SECRET',
@@ -41,7 +41,7 @@ export class JwtService {
     });
   }
 
-  verifyRefreshToken(token: string): { sub: number; role: UserRole } {
+  verifyRefreshToken(token: string): { sub: string; role: UserRole } {
     return this.nestJwtService.verify(token, {
       secret: this.configService.get<string>(
         'JWT_REFRESH_SECRET',

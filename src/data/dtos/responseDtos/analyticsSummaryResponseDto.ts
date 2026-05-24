@@ -2,7 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 
 export class RecentHireDto {
   @ApiProperty()
-  id!: number;
+  id!: string;
 
   @ApiProperty()
   firstName!: string;
