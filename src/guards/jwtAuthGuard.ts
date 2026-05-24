@@ -6,6 +6,7 @@ import {
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { Request } from 'express';
+import { RequestWithUser } from './requestWithUser';
 import { JwtService } from '../services/jwtService';
 import { UserRole } from '../data/enums/userRole';
 import { ROLES_KEY } from '../decorators/roles.decorator';
@@ -23,7 +24,7 @@ export class JwtAuthGuard implements CanActivate {
       [context.getHandler(), context.getClass()],
     );
 
-    const request = context.switchToHttp().getRequest<Request>();
+    const request = context.switchToHttp().getRequest<RequestWithUser>();
     const authHeader = request.headers['authorization'];
 
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
@@ -36,14 +37,17 @@ export class JwtAuthGuard implements CanActivate {
 
     try {
       const payload = this.jwtService.verifyAccessToken(token);
-      (request as any).user = payload;
+      request.user = payload;
 
       if (requiredRoles && !requiredRoles.includes(payload.role)) {
         throw new UnauthorizedException('Insufficient permissions');
       }
 
       return true;
-    } catch {
+    } catch (error) {
+      if (error instanceof UnauthorizedException) {
+        throw error;
+      }
       throw new UnauthorizedException('Invalid or expired token');
     }
   }

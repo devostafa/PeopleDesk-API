@@ -15,23 +15,25 @@ export class EmployeeRepository {
     private readonly repository: Repository<Employee>,
   ) {}
 
-  async findAndCount(options?: FindManyOptions<Employee>) {
+  async findAndCount(
+    options?: FindManyOptions<Employee>,
+  ): Promise<[Employee[], number]> {
     return this.repository.findAndCount(options);
   }
 
-  async findOne(options: FindOneOptions<Employee>) {
+  async findOne(options: FindOneOptions<Employee>): Promise<Employee | null> {
     return this.repository.findOne(options);
   }
 
-  create(entityLike: DeepPartial<Employee>) {
+  create(entityLike: DeepPartial<Employee>): Employee {
     return this.repository.create(entityLike);
   }
 
-  async save(entity: Employee) {
+  async save(entity: Employee): Promise<Employee> {
     return this.repository.save(entity);
   }
 
-  async remove(entity: Employee) {
+  async remove(entity: Employee): Promise<Employee> {
     return this.repository.remove(entity);
   }
 }

@@ -1,10 +1,15 @@
 import { Controller, Get, UseGuards } from '@nestjs/common';
-import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { JwtAuthGuard } from '../guards/jwtAuthGuard';
-import { Roles } from '../decorators/roles.decorator';
-import { UserRole } from '../data/enums/userRole';
 import { AnalyticsService } from '../services/analyticsService';
 import { AnalyticsSummaryResponseDto } from '../data/dtos/responseDtos/analyticsSummaryResponseDto';
+import { Roles } from '../decorators/roles.decorator';
+import { UserRole } from '../data/enums/userRole';
 
 @ApiTags('Analytics')
 @ApiBearerAuth()

@@ -11,6 +11,19 @@ export class AuthService {
     private readonly hashService: HashService,
   ) {}
 
+  refresh(refreshToken: string): { accessToken: string } {
+    try {
+      const payload = this.jwtService.verifyRefreshToken(refreshToken);
+      const accessToken = this.jwtService.createAccessToken(
+        payload.sub,
+        payload.role,
+      );
+      return { accessToken };
+    } catch {
+      throw new UnauthorizedException('Invalid refresh token');
+    }
+  }
+
   async login(
     username: string,
     password: string,

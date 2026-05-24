@@ -36,8 +36,8 @@ export class DepartmentController {
   @ApiOperation({ summary: 'Get all departments' })
   @ApiResponse({ status: 200, type: [DeptResponseDto] })
   async getAll(
-    @Query('page', ParseIntPipe) page: number = 1,
-    @Query('limit', ParseIntPipe) limit: number = 10,
+    @Query('page', new ParseIntPipe({ optional: true })) page: number = 1,
+    @Query('limit', new ParseIntPipe({ optional: true })) limit: number = 10,
     @Query('search') search?: string,
     @Query('sort') sort?: string,
   ): Promise<{ data: DeptResponseDto[]; total: number }> {

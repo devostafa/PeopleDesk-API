@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { Like } from 'typeorm';
+import { FindOptionsOrder, FindOptionsWhere, Like } from 'typeorm';
 import { EmployeeRepository } from '../data/repositories/employeeRepository';
 import { DepartmentRepository } from '../data/repositories/departmentRepository';
 import { Employee } from '../data/entities/employee';
@@ -34,15 +34,15 @@ export class EmpService {
     search?: string,
     sort?: string,
   ): Promise<{ data: EmpResponseDto[]; total: number }> {
-    const order: any = {};
+    const order: FindOptionsOrder<Employee> = {};
     if (sort) {
       const [field, direction] = sort.split(':');
-      order[field] = direction?.toUpperCase() === 'DESC' ? 'DESC' : 'ASC';
+      (order as any)[field] = direction?.toUpperCase() === 'DESC' ? 'DESC' : 'ASC';
     } else {
       order.id = 'DESC';
     }
 
-    const where: any = [];
+    const where: FindOptionsWhere<Employee>[] = [];
     if (search) {
       where.push({ firstName: Like(`%${search}%`) });
       where.push({ lastName: Like(`%${search}%`) });

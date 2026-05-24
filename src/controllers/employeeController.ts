@@ -36,8 +36,8 @@ export class EmployeeController {
   @ApiOperation({ summary: 'Get all employees' })
   @ApiResponse({ status: 200, type: [EmpResponseDto] })
   async getAll(
-    @Query('page', ParseIntPipe) page: number = 1,
-    @Query('limit', ParseIntPipe) limit: number = 10,
+    @Query('page', new ParseIntPipe({ optional: true })) page: number = 1,
+    @Query('limit', new ParseIntPipe({ optional: true })) limit: number = 10,
     @Query('search') search?: string,
     @Query('sort') sort?: string,
   ): Promise<{ data: EmpResponseDto[]; total: number }> {

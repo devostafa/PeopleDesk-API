@@ -13,6 +13,7 @@ import { DeptService } from './services/deptService';
 import { AnalyticsService } from './services/analyticsService';
 import { AnalyticsController } from './controllers/analyticsController';
 import { DatabaseModule } from './data/db.module';
+import { ThrottlerModule } from '@nestjs/throttler';
 
 @Module({
   imports: [
@@ -26,6 +27,12 @@ import { DatabaseModule } from './data/db.module';
         signOptions: { expiresIn: '1d' },
       }),
     }),
+    ThrottlerModule.forRoot([
+      {
+        ttl: 60_000, // 1 minute window
+        limit: 10,
+      },
+    ]),
   ],
   controllers: [
     AuthController,

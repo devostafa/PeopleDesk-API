@@ -27,7 +27,14 @@ export class Employee {
   @Column({ type: 'decimal', precision: 10, scale: 2 })
   salary!: number;
 
-  @ManyToOne(() => Department, { eager: true, nullable: true })
-  @JoinColumn()
+  @Column({ name: 'departmentId', type: 'uniqueidentifier', nullable: true })
+  departmentId!: string | null;
+
+  @ManyToOne(() => Department, {
+    eager: true,
+    nullable: true,
+    onDelete: 'SET NULL',
+  })
+  @JoinColumn({ name: 'departmentId' })
   department!: Department | null;
 }

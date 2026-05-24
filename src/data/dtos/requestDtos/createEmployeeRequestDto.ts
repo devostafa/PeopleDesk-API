@@ -1,13 +1,5 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import {
-  IsEmail,
-  IsNotEmpty,
-  IsNumber,
-  IsOptional,
-  IsString,
-  Min,
-} from 'class-validator';
-import { Type } from 'class-transformer';
+import { IsDateString, IsEmail, IsNotEmpty, IsNumber, IsOptional, IsString, IsUUID, Min, } from 'class-validator';
 
 export class CreateEmployeeRequestDto {
   @ApiProperty()
@@ -24,9 +16,9 @@ export class CreateEmployeeRequestDto {
   @IsEmail()
   email!: string;
 
-  @ApiProperty()
-  @Type(() => Date)
-  hireDate!: Date;
+  @ApiProperty({ example: '2024-01-15' })
+  @IsDateString()
+  hireDate!: string;
 
   @ApiProperty()
   @IsNumber()
@@ -35,6 +27,6 @@ export class CreateEmployeeRequestDto {
 
   @ApiPropertyOptional()
   @IsOptional()
-  @IsString()
+  @IsUUID()
   departmentId?: string;
 }

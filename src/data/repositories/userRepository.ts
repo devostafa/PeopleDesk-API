@@ -10,15 +10,15 @@ export class UserRepository {
     private readonly repository: Repository<User>,
   ) {}
 
-  async findOne(options: FindOneOptions<User>) {
+  async findOne(options: FindOneOptions<User>): Promise<User | null> {
     return this.repository.findOne(options);
   }
 
-  create(entityLike: DeepPartial<User>) {
+  create(entityLike: DeepPartial<User>): User {
     return this.repository.create(entityLike);
   }
 
-  async save(entity: User) {
+  async save(entity: User): Promise<User> {
     return this.repository.save(entity);
   }
 }

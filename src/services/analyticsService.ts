@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { EmployeeRepository } from '../data/repositories/employeeRepository';
 import { DepartmentRepository } from '../data/repositories/departmentRepository';
+import { AnalyticsSummaryResponseDto } from '../data/dtos/responseDtos/analyticsSummaryResponseDto';
 
 @Injectable()
 export class AnalyticsService {
@@ -9,7 +10,7 @@ export class AnalyticsService {
     private readonly departmentRepository: DepartmentRepository,
   ) {}
 
-  async getSummary() {
+  async getSummary(): Promise<AnalyticsSummaryResponseDto> {
     const totalEmployeesCount = await this.employeeRepository.findAndCount({
       take: 0,
     });
@@ -24,7 +25,7 @@ export class AnalyticsService {
     const distribution = await Promise.all(
       departments[0].map(async (dept) => {
         const count = await this.employeeRepository.findAndCount({
-          where: { department: { id: dept.id } },
+          where: { departmentId: dept.id },
           take: 0,
         });
         return {
